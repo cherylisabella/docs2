@@ -32,6 +32,21 @@ body {
     font-weight: 600;
     color: #58a6ff;
     text-decoration: none;
+    display: flex;
+    align-items: center;
+}
+
+.home-icon {
+    display: flex;
+    align-items: center;
+}
+
+.home-icon svg {
+    transition: transform 0.2s ease, color 0.2s ease;
+}
+
+.home-icon:hover svg {
+    transform: scale(1.1);
 }
 
 .nav-links {
@@ -102,12 +117,23 @@ h1 {
     margin: 4rem 0;
 }
 
+.packages-compact {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+    gap: 2rem;
+    margin: 3rem 0;
+}
+
 .package {
     background: #161b22;
     border: 1px solid #30363d;
     border-radius: 8px;
     padding: 2.5rem;
     transition: all 0.3s ease;
+}
+
+.packages-compact .package {
+    padding: 2rem;
 }
 
 .package:hover {
@@ -480,6 +506,10 @@ pre.code-block {
 
     .nav-links {
         gap: 1rem;
+    }
+
+    .packages-compact {
+        grid-template-columns: 1fr;
     }
 
     .package {
