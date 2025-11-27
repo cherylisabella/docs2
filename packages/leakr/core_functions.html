@@ -1,0 +1,250 @@
+<section id="core-functions">
+    <h1>Core Functions</h1>
+
+    <h2>leakr_audit()</h2>
+    <p>The main function for comprehensive data leakage detection.</p>
+
+    <h3>Parameters</h3>
+    <table>
+        <thead>
+            <tr>
+                <th>Parameter</th>
+                <th>Type</th>
+                <th>Description</th>
+                <th>Default</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr><td><code>data</code></td><td>data.frame</td><td>Dataset to audit</td><td>Required</td></tr>
+            <tr><td><code>target</code></td><td>character</td><td>Target variable name</td><td><code>NULL</code></td></tr>
+            <tr><td><code>split</code></td><td>character/vector</td><td>Split variable for train/test division</td><td><code>NULL</code></td></tr>
+            <tr><td><code>id</code></td><td>character</td><td>Unique identifier column</td><td><code>NULL</code></td></tr>
+            <tr><td><code>detectors</code></td><td>character vector</td><td>Detector names to run</td><td><code>NULL</code> (all)</td></tr>
+            <tr><td><code>config</code></td><td>list</td><td>Configuration settings</td><td><code>list()</code></td></tr>
+        </tbody>
+    </table>
+
+    <h3>Configuration Options</h3>
+    <pre><code class="language-r">
+config <- list(
+  sample_size = 50000,              
+  correlation_threshold = 0.8,      
+  contamination_threshold = 0.1,    
+  numeric_severity = TRUE,          
+  plot_results = FALSE,             
+  parallel = FALSE,                 
+  seed = 123                        
+)
+    </code></pre>
+
+    <h3>Basic Usage</h3>
+    <pre><code class="language-r">
+# Simple audit
+report <- leakr_audit(data = my_data, target = "outcome")
+
+# With train/test split
+report <- leakr_audit(
+  data = my_data,
+  target = "outcome",
+  split = my_data$split_column
+)
+
+# With unique identifier
+report <- leakr_audit(
+  data = my_data,
+  target = "outcome",
+  id = "customer_id"
+)
+
+# Select specific detectors
+report <- leakr_audit(
+  data = my_data,
+  target = "outcome",
+  detectors = c("train_test_contamination", "target_leakage")
+)
+
+# List available detectors
+list_registered_detectors()
+    </code></pre>
+
+    <h3>Report Structure</h3>
+    <pre><code class="language-r">
+# Access report components
+report$summary
+report$evidence
+report$meta
+
+# Report metadata
+report$meta$n_detectors
+report$meta$n_issues
+report$meta$data_shape
+report$meta$original_data_shape
+report$meta$was_sampled
+report$meta$detectors_run
+report$meta$timestamp
+report$meta$config_used
+    </code></pre>
+
+    <hr>
+
+    <h2>Built-in Detectors</h2>
+
+    <h3>1. Train/Test Contamination Detector</h3>
+    <p>Detects overlapping observations between training and testing sets using ID columns or row hashing.</p>
+    <pre><code class="language-r">
+# Create detector
+detector <- new_train_test_detector(threshold = 0.1)
+
+# Run detector
+result <- run_detector(
+  detector = detector,
+  data = my_data,
+  split = split_vector,
+  id = "customer_id"
+)
+
+# Access results
+result$issues
+result$evidence
+result$detector
+    </code></pre>
+    <p><strong>Detection Strategy:</strong></p>
+    <ul>
+        <li>Compares IDs between train and test sets if <code>id</code> provided</li>
+        <li>Falls back to row hashing for exact duplicate detection</li>
+        <li>Severity levels:
+            <ul>
+                <li><code>critical</code>: ≥2 overlapping observations</li>
+                <li><code>low</code>: <2 overlaps</li>
+            </ul>
+        </li>
+    </ul>
+
+    <h3>Example Output</h3>
+    <pre><code class="language-r">
+result$issues
+result$evidence$overlap_ids
+    </code></pre>
+
+    <h3>2. Temporal Leakage Detector</h3>
+    <p>Identifies temporal misalignment where test data points fall before or too close to the training period.</p>
+    <pre><code class="language-r">
+detector <- new_temporal_detector(
+  time_col = "transaction_date",
+  lookahead_window = 7
+)
+
+result <- run_detector(
+  detector = detector,
+  data = my_data,
+  split = split_vector
+)
+
+result$evidence$max_train_time
+result$evidence$lookahead_window
+result$evidence$n_leak
+result$evidence$leakage_indices
+    </code></pre>
+    <p><strong>Detection Strategy:</strong></p>
+    <ul>
+        <li>Validates test data comes after training data plus a lookahead window</li>
+        <li>Severity levels:
+            <ul>
+                <li>high: ≥20 violations</li>
+                <li>medium: 5–19 violations</li>
+                <li>low: <5 violations</li>
+            </ul>
+        </li>
+        <li>Supports <code>Date</code> and <code>POSIXt</code> formats</li>
+    </ul>
+
+    <h3>3. Target Leakage Detector</h3>
+    <p>Identifies features with suspicious correlations to the target variable. Automatically registered when package loads.</p>
+    <pre><code class="language-r">
+report <- leakr_audit(
+  data = my_data,
+  target = "outcome",
+  detectors = "target_leakage"
+)
+    </code></pre>
+
+    <h3>4. Duplication Detector</h3>
+    <p>Finds exact and near-duplicate rows within datasets. Automatically registered when package loads.</p>
+    <pre><code class="language-r">
+report <- leakr_audit(
+  data = my_data,
+  detectors = "duplication_detection"
+)
+    </code></pre>
+
+    <hr>
+
+    <h2>Reporting and Visualisation</h2>
+
+    <h3>Print Report</h3>
+    <pre><code class="language-r">
+print(report)
+    </code></pre>
+
+    <h3>Detailed Summary</h3>
+    <pre><code class="language-r">
+leakr_summarise(report, top_n = 20, show_config = TRUE)
+    </code></pre>
+
+    <h3>Plot Results</h3>
+    <pre><code class="language-r">
+detector <- new_train_test_detector()
+result <- run_detector(detector, my_data, split = my_data$split, id = "customer_id")
+
+plot(result)
+plot(result, palette = "Set2")
+    </code></pre>
+
+    <h3>Automatic Plotting</h3>
+    <pre><code class="language-r">
+report <- leakr_audit(
+  data = my_data,
+  target = "outcome",
+  config = list(plot_results = TRUE)
+)
+
+report$plots
+    </code></pre>
+
+    <hr>
+
+    <h2>Filtering and Analysing Results</h2>
+
+    <h3>Filter by Severity</h3>
+    <pre><code class="language-r">
+critical_issues <- report$summary[report$summary$severity == "critical", ]
+
+serious_issues <- report$summary[
+  report$summary$severity %in% c("critical", "high"), 
+]
+    </code></pre>
+
+    <h3>Filter by Detector</h3>
+    <pre><code class="language-r">
+train_test_issues <- report$summary[
+  report$summary$detector == "train_test_contamination", 
+]
+    </code></pre>
+
+    <h3>Sort by Severity Score</h3>
+    <pre><code class="language-r">
+sorted_issues <- report$summary[
+  order(-report$summary$severity_score), 
+]
+
+top_5_issues <- head(sorted_issues, 5)
+    </code></pre>
+
+    <h3>Export Issues</h3>
+    <pre><code class="language-r">
+leakr_export_data(
+  report$summary,
+  "leakage_issues_report.csv"
+)
+    </code></pre>
+</section>
