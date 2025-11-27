@@ -1,45 +1,87 @@
-<section id="core-functions">
-    <h1>Core Functions</h1>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Core Functions - leakr</title>
+    <link rel="stylesheet" href="../../css/style.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container">
+            <a href="../../index.html" class="nav-brand home-icon">
+                <svg height="24" width="24" viewBox="0 0 16 16" fill="currentColor">
+                    <path d="M8.707 1.5a1 1 0 0 0-1.414 0L.646 8.146a.5.5 0 0 0 .708.708L2 8.207V13.5A1.5 1.5 0 0 0 3.5 15h9a1.5 1.5 0 0 0 1.5-1.5V8.207l.646.647a.5.5 0 0 0 .708-.708L13 5.793V2.5a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v1.293L8.707 1.5ZM13 7.207V13.5a.5.5 0 0 1-.5.5h-9a.5.5 0 0 1-.5-.5V7.207l5-5 5 5Z"/>
+                </svg>
+            </a>
+            <div class="nav-links">
+                <a href="https://github.com/cherylisabella" target="_blank" class="github-icon">
+                    <svg height="24" width="24" viewBox="0 0 16 16" fill="currentColor">
+                        <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"></path>
+                    </svg>
+                </a>
+            </div>
+        </div>
+    </nav>
 
-    <h2>leakr_audit()</h2>
-    <p>The main function for comprehensive data leakage detection.</p>
+    <div class="container">
+        <div class="doc-layout">
+            <aside class="sidebar">
+                <nav class="sidebar-nav">
+                    <h3>leakr</h3>
+                    <ul>
+                        <li><a href="index.html">Overview</a></li>
+                        <li><a href="core-functions.html" class="active">Core Functions</a></li>
+                        <li><a href="data-io.html">Data Import/Export</a></li>
+                        <li><a href="ml-integration.html">ML Framework Integration</a></li>
+                        <li><a href="snapshots.html">Data Snapshots</a></li>
+                        <li><a href="examples.html">Real-World Examples</a></li>
+                        <li><a href="custom-detectors.html">Custom Detectors</a></li>
+                        <li><a href="best-practices.html">Best Practices</a></li>
+                    </ul>
+                </nav>
+            </aside>
 
-    <h3>Parameters</h3>
-    <table>
-        <thead>
-            <tr>
-                <th>Parameter</th>
-                <th>Type</th>
-                <th>Description</th>
-                <th>Default</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr><td><code>data</code></td><td>data.frame</td><td>Dataset to audit</td><td>Required</td></tr>
-            <tr><td><code>target</code></td><td>character</td><td>Target variable name</td><td><code>NULL</code></td></tr>
-            <tr><td><code>split</code></td><td>character/vector</td><td>Split variable for train/test division</td><td><code>NULL</code></td></tr>
-            <tr><td><code>id</code></td><td>character</td><td>Unique identifier column</td><td><code>NULL</code></td></tr>
-            <tr><td><code>detectors</code></td><td>character vector</td><td>Detector names to run</td><td><code>NULL</code> (all)</td></tr>
-            <tr><td><code>config</code></td><td>list</td><td>Configuration settings</td><td><code>list()</code></td></tr>
-        </tbody>
-    </table>
+            <main class="doc-content">
+                <h1>Core Functions</h1>
 
-    <h3>Configuration Options</h3>
-    <pre><code class="language-r">
-config <- list(
-  sample_size = 50000,              
-  correlation_threshold = 0.8,      
-  contamination_threshold = 0.1,    
-  numeric_severity = TRUE,          
-  plot_results = FALSE,             
-  parallel = FALSE,                 
-  seed = 123                        
-)
-    </code></pre>
+                <section>
+                    <h2>leakr_audit()</h2>
+                    <p>The main function for comprehensive data leakage detection.</p>
 
-    <h3>Basic Usage</h3>
-    <pre><code class="language-r">
-# Simple audit
+                    <h3>Parameters</h3>
+                    <table class="function-table">
+                        <thead>
+                            <tr>
+                                <th>Parameter</th>
+                                <th>Type</th>
+                                <th>Description</th>
+                                <th>Default</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr><td><code>data</code></td><td>data.frame</td><td>Dataset to audit</td><td>Required</td></tr>
+                            <tr><td><code>target</code></td><td>character</td><td>Target variable name</td><td><code>NULL</code></td></tr>
+                            <tr><td><code>split</code></td><td>character/vector</td><td>Split variable for train/test division</td><td><code>NULL</code></td></tr>
+                            <tr><td><code>id</code></td><td>character</td><td>Unique identifier column</td><td><code>NULL</code></td></tr>
+                            <tr><td><code>detectors</code></td><td>character vector</td><td>Detector names to run</td><td><code>NULL</code> (all)</td></tr>
+                            <tr><td><code>config</code></td><td>list</td><td>Configuration settings</td><td><code>list()</code></td></tr>
+                        </tbody>
+                    </table>
+
+                    <h3>Configuration Options</h3>
+                    <pre class="code-block">config <- list(
+  sample_size = 50000,              # Max rows to analyse
+  correlation_threshold = 0.8,      # Suspicious correlation threshold
+  contamination_threshold = 0.1,    # Contamination tolerance
+  numeric_severity = TRUE,          # Use numeric severity scores
+  plot_results = FALSE,             # Generate diagnostic plots
+  parallel = FALSE,                 # Enable parallel processing
+  seed = 123                        # Random seed for reproducibility
+)</pre>
+
+                    <h3>Basic Usage</h3>
+                    <pre class="code-block"># Simple audit
 report <- leakr_audit(data = my_data, target = "outcome")
 
 # With train/test split
@@ -64,35 +106,33 @@ report <- leakr_audit(
 )
 
 # List available detectors
-list_registered_detectors()
-    </code></pre>
+list_registered_detectors()</pre>
 
-    <h3>Report Structure</h3>
-    <pre><code class="language-r">
-# Access report components
-report$summary
-report$evidence
-report$meta
+                    <h3>Report Structure</h3>
+                    <pre class="code-block"># Access report components
+report$summary     # Issues dataframe with severity, detector, description
+report$evidence    # Detector-specific evidence (overlap_ids, leakage_indices, etc.)
+report$meta        # Metadata (timestamps, config, sampling info)
 
 # Report metadata
-report$meta$n_detectors
-report$meta$n_issues
-report$meta$data_shape
-report$meta$original_data_shape
-report$meta$was_sampled
-report$meta$detectors_run
-report$meta$timestamp
-report$meta$config_used
-    </code></pre>
+report$meta$n_detectors           # Number of detectors run
+report$meta$n_issues              # Total issues found
+report$meta$data_shape            # Analysed data dimensions
+report$meta$original_data_shape   # Original data dimensions
+report$meta$was_sampled           # Whether data was sampled
+report$meta$detectors_run         # Names of detectors executed
+report$meta$timestamp             # Analysis timestamp
+report$meta$config_used           # Configuration used</pre>
+                </section>
 
-    <hr>
+                <hr>
 
-    <h2>Built-in Detectors</h2>
+                <section>
+                    <h2>Built-in Detectors</h2>
 
-    <h3>1. Train/Test Contamination Detector</h3>
-    <p>Detects overlapping observations between training and testing sets using ID columns or row hashing.</p>
-    <pre><code class="language-r">
-# Create detector
+                    <h3>1. Train/Test Contamination Detector</h3>
+                    <p>Detects overlapping observations between training and testing sets using ID columns or row hashing.</p>
+                    <pre class="code-block"># Create detector
 detector <- new_train_test_detector(threshold = 0.1)
 
 # Run detector
@@ -104,147 +144,159 @@ result <- run_detector(
 )
 
 # Access results
-result$issues
-result$evidence
-result$detector
-    </code></pre>
-    <p><strong>Detection Strategy:</strong></p>
-    <ul>
-        <li>Compares IDs between train and test sets if <code>id</code> provided</li>
-        <li>Falls back to row hashing for exact duplicate detection</li>
-        <li>Severity levels:
-            <ul>
-                <li><code>critical</code>: ≥2 overlapping observations</li>
-                <li><code>low</code>: <2 overlaps</li>
-            </ul>
-        </li>
-    </ul>
+result$issues      # Issue information (severity, description)
+result$evidence    # Evidence (overlap_ids or overlap_hashes)
+result$detector    # Detector name</pre>
 
-    <h3>Example Output</h3>
-    <pre><code class="language-r">
-result$issues
+                    <p><strong>Detection Strategy:</strong></p>
+                    <ul class="features">
+                        <li>Compares IDs between train and test sets if <code>id</code> provided</li>
+                        <li>Falls back to row hashing for exact duplicate detection</li>
+                        <li>Severity levels:
+                            <ul>
+                                <li><code>critical</code>: ≥2 overlapping observations</li>
+                                <li><code>low</code>: &lt;2 overlaps</li>
+                            </ul>
+                        </li>
+                    </ul>
+
+                    <h4>Example Output</h4>
+                    <pre class="code-block">result$issues
+#> $severity
+#> [1] "critical"
+#>
+#> $description
+#> [1] "Detected 5 overlapping"
+
 result$evidence$overlap_ids
-    </code></pre>
+#> [1] "CUST001" "CUST045" "CUST102" "CUST203" "CUST456"</pre>
+                </section>
 
-    <h3>2. Temporal Leakage Detector</h3>
-    <p>Identifies temporal misalignment where test data points fall before or too close to the training period.</p>
-    <pre><code class="language-r">
+                <section>
+                    <h3>2. Temporal Leakage Detector</h3>
+                    <p>Identifies temporal misalignment where test data points fall before or too close to the training period.</p>
+                    <pre class="code-block"># Create temporal detector
 detector <- new_temporal_detector(
   time_col = "transaction_date",
-  lookahead_window = 7
+  lookahead_window = 7  # days
 )
 
+# Run detector
 result <- run_detector(
   detector = detector,
   data = my_data,
   split = split_vector
 )
 
-result$evidence$max_train_time
-result$evidence$lookahead_window
-result$evidence$n_leak
-result$evidence$leakage_indices
-    </code></pre>
-    <p><strong>Detection Strategy:</strong></p>
-    <ul>
-        <li>Validates test data comes after training data plus a lookahead window</li>
-        <li>Severity levels:
-            <ul>
-                <li>high: ≥20 violations</li>
-                <li>medium: 5–19 violations</li>
-                <li>low: <5 violations</li>
-            </ul>
-        </li>
-        <li>Supports <code>Date</code> and <code>POSIXt</code> formats</li>
-    </ul>
+# Access temporal evidence
+result$evidence$max_train_time      # Latest training timestamp
+result$evidence$lookahead_window    # Configured lookahead period
+result$evidence$n_leak              # Number of leakage violations
+result$evidence$leakage_indices     # Indices of problematic rows</pre>
 
-    <h3>3. Target Leakage Detector</h3>
-    <p>Identifies features with suspicious correlations to the target variable. Automatically registered when package loads.</p>
-    <pre><code class="language-r">
+                    <p><strong>Detection Strategy:</strong></p>
+                    <ul class="features">
+                        <li>Validates that test data comes after training data plus a lookahead window</li>
+                        <li>Severity levels:
+                            <ul>
+                                <li><code>high</code>: ≥20 violations</li>
+                                <li><code>medium</code>: 5-19 violations</li>
+                                <li><code>low</code>: &lt;5 violations</li>
+                            </ul>
+                        </li>
+                        <li>Supports <code>Date</code> and <code>POSIXt</code> time formats</li>
+                    </ul>
+                </section>
+
+                <section>
+                    <h3>3. Target Leakage Detector</h3>
+                    <p>Identifies features with suspicious correlations to the target variable.</p>
+                    <pre class="code-block"># Included in leakr_audit automatically
 report <- leakr_audit(
   data = my_data,
   target = "outcome",
   detectors = "target_leakage"
-)
-    </code></pre>
+)</pre>
+                </section>
 
-    <h3>4. Duplication Detector</h3>
-    <p>Finds exact and near-duplicate rows within datasets. Automatically registered when package loads.</p>
-    <pre><code class="language-r">
+                <section>
+                    <h3>4. Duplication Detector</h3>
+                    <p>Finds exact and near-duplicate rows within datasets.</p>
+                    <pre class="code-block"># Included in leakr_audit automatically
 report <- leakr_audit(
   data = my_data,
   detectors = "duplication_detection"
-)
-    </code></pre>
+)</pre>
+                </section>
 
-    <hr>
+                <hr>
 
-    <h2>Reporting and Visualisation</h2>
+                <section>
+                    <h2>Reporting and Visualisation</h2>
 
-    <h3>Print Report</h3>
-    <pre><code class="language-r">
-print(report)
-    </code></pre>
+                    <h3>Print Report</h3>
+                    <pre class="code-block">print(report)</pre>
 
-    <h3>Detailed Summary</h3>
-    <pre><code class="language-r">
-leakr_summarise(report, top_n = 20, show_config = TRUE)
-    </code></pre>
+                    <h3>Detailed Summary</h3>
+                    <pre class="code-block">leakr_summarise(report, top_n = 20, show_config = TRUE)</pre>
 
-    <h3>Plot Results</h3>
-    <pre><code class="language-r">
-detector <- new_train_test_detector()
+                    <h3>Plot Results</h3>
+                    <pre class="code-block">detector <- new_train_test_detector()
 result <- run_detector(detector, my_data, split = my_data$split, id = "customer_id")
 
+# Default plot
 plot(result)
-plot(result, palette = "Set2")
-    </code></pre>
 
-    <h3>Automatic Plotting</h3>
-    <pre><code class="language-r">
-report <- leakr_audit(
+# Custom palette
+plot(result, palette = "Set2")</pre>
+
+                    <h3>Automatic Plotting</h3>
+                    <pre class="code-block">report <- leakr_audit(
   data = my_data,
   target = "outcome",
   config = list(plot_results = TRUE)
 )
 
-report$plots
-    </code></pre>
+# Access generated plots
+report$plots</pre>
+                </section>
 
-    <hr>
+                <hr>
 
-    <h2>Filtering and Analysing Results</h2>
+                <section>
+                    <h2>Filtering and Analysing Results</h2>
 
-    <h3>Filter by Severity</h3>
-    <pre><code class="language-r">
+                    <h3>Filter by Severity</h3>
+                    <pre class="code-block"># Critical issues only
 critical_issues <- report$summary[report$summary$severity == "critical", ]
 
+# Serious issues (critical or high)
 serious_issues <- report$summary[
   report$summary$severity %in% c("critical", "high"), 
-]
-    </code></pre>
+]</pre>
 
-    <h3>Filter by Detector</h3>
-    <pre><code class="language-r">
-train_test_issues <- report$summary[
+                    <h3>Filter by Detector</h3>
+                    <pre class="code-block">train_test_issues <- report$summary[
   report$summary$detector == "train_test_contamination", 
-]
-    </code></pre>
+]</pre>
 
-    <h3>Sort by Severity Score</h3>
-    <pre><code class="language-r">
+                    <h3>Sort by Severity Score</h3>
+                    <pre class="code-block"># Sort by severity score (if numeric_severity = TRUE)
 sorted_issues <- report$summary[
   order(-report$summary$severity_score), 
 ]
 
-top_5_issues <- head(sorted_issues, 5)
-    </code></pre>
+# Get top N most severe issues
+top_5_issues <- head(sorted_issues, 5)</pre>
 
-    <h3>Export Issues</h3>
-    <pre><code class="language-r">
-leakr_export_data(
+                    <h3>Export Issues</h3>
+                    <pre class="code-block">leakr_export_data(
   report$summary,
   "leakage_issues_report.csv"
-)
-    </code></pre>
-</section>
+)</pre>
+                </section>
+            </main>
+        </div>
+    </div>
+</body>
+</html>
