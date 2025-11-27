@@ -1,0 +1,182 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>leakr - Data Import/Export</title>
+    <link rel="stylesheet" href="../../css/style.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container">
+            <a href="../../index.html" class="nav-brand home-icon">
+                <svg height="24" width="24" viewBox="0 0 16 16" fill="currentColor">
+                    <path d="M8.707 1.5a1 1 0 0 0-1.414 0L.646 8.146a.5.5 0 0 0 .708.708L2 8.207V13.5A1.5 1.5 0 0 0 3.5 15h9a1.5 1.5 0 0 0 1.5-1.5V8.207l.646.647a.5.5 0 0 0 .708-.708L13 5.793V2.5a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v1.293L8.707 1.5ZM13 7.207V13.5a.5.5 0 0 1-.5.5h-9a.5.5 0 0 1-.5-.5V7.207l5-5 5 5Z"/>
+                </svg>
+            </a>
+            <div class="nav-links">
+                <a href="https://github.com/cherylisabella" target="_blank" class="github-icon">
+                    <svg height="24" width="24" viewBox="0 0 16 16" fill="currentColor">
+                        <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"></path>
+                    </svg>
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="doc-layout">
+            <aside class="sidebar">
+                <nav class="sidebar-nav">
+                    <h3>leakr</h3>
+                    <ul>
+                        <li><a href="index.html">Overview</a></li>
+                        <li><a href="core_functions.html">Core Functions</a></li>
+                        <li><a href="data_io.html" class="active">Data Import/Export</a></li>
+                        <li><a href="ml_integration.html">ML Framework Integration</a></li>
+                        <li><a href="snapshots.html">Data Snapshots</a></li>
+                        <li><a href="examples.html">Real-World Examples</a></li>
+                        <li><a href="custom_detectors.html">Custom Detectors</a></li>
+                        <li><a href="best_practices.html">Best Practices</a></li>
+                    </ul>
+                </nav>
+            </aside>
+
+            <main class="doc-content">
+                <header class="doc-page-header">
+                    <div class="header-title">
+                        <h1>📊 Data Import/Export</h1>
+                    </div>
+                </header>
+
+                <section>
+                    <h2>Import Data</h2>
+                    <p>leakr provides flexible data import with automatic format detection and preprocessing.</p>
+                    <pre class="code-block">
+# Auto-detect format from extension
+data <- leakr_import("path/to/data.csv")
+
+# Specify format explicitly
+data <- leakr_import("path/to/data.xlsx", format = "excel")
+
+# Import with preprocessing
+data <- leakr_import(
+  "path/to/data.csv",
+  preprocessing = list(
+    remove_empty_rows = TRUE,
+    remove_empty_cols = TRUE,
+    clean_column_names = TRUE,
+    handle_dates = TRUE,
+    remove_constant_cols = TRUE,
+    convert_character_to_factor = FALSE,
+    max_factor_levels = 100
+  )
+)
+
+# Quick import (minimal preprocessing)
+data <- leakr_quick_import("path/to/data.csv")
+
+# Import from data.frame
+data <- leakr_import(iris)
+                    </pre>
+                </section>
+
+                <section>
+                    <h2>Supported Formats</h2>
+                    <table class="function-table">
+                        <thead>
+                            <tr>
+                                <th>Format</th>
+                                <th>Extensions</th>
+                                <th>Required Package</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>CSV</td>
+                                <td>.csv, .txt</td>
+                                <td>Base R</td>
+                            </tr>
+                            <tr>
+                                <td>TSV</td>
+                                <td>.tsv</td>
+                                <td>Base R</td>
+                            </tr>
+                            <tr>
+                                <td>Excel</td>
+                                <td>.xlsx, .xls</td>
+                                <td>readxl</td>
+                            </tr>
+                            <tr>
+                                <td>RDS</td>
+                                <td>.rds</td>
+                                <td>Base R</td>
+                            </tr>
+                            <tr>
+                                <td>JSON</td>
+                                <td>.json</td>
+                                <td>jsonlite</td>
+                            </tr>
+                            <tr>
+                                <td>Parquet</td>
+                                <td>.parquet</td>
+                                <td>arrow</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </section>
+
+                <section>
+                    <h2>Advanced Import Options</h2>
+                    <pre class="code-block">
+# CSV with specific encoding
+data <- leakr_import(
+  "data.csv",
+  encoding = "latin1",
+  verbose = TRUE
+)
+
+# Excel with specific sheet
+data <- leakr_import(
+  "workbook.xlsx",
+  format = "excel",
+  sheet = "Sheet2"  # or sheet = 2
+)
+
+# Handle large files (automatic streaming)
+# Files > 100MB are automatically limited to first 10k rows
+large_data <- leakr_import("very_large_file.csv")
+attr(large_data, "leakr_streaming")  # TRUE if streamed
+                    </pre>
+                </section>
+
+                <section>
+                    <h2>Preprocessing Features</h2>
+                    <pre class="code-block">
+# Default preprocessing (automatic)
+data <- leakr_import(
+  "data.csv",
+  preprocessing = list(
+    remove_empty_rows = TRUE,      # Remove all-NA rows
+    remove_empty_cols = TRUE,      # Remove all-NA columns
+    clean_column_names = TRUE,     # Standardise column names
+    handle_dates = TRUE,           # Auto-detect and convert dates
+    remove_constant_cols = FALSE   # Remove columns with single value
+  )
+)
+
+# Check preprocessing provenance
+attr(data, "leakr_provenance")
+#> $clean_column_names
+#> [1] TRUE
+#> 
+#> $removed_empty_rows
+#> [1] 5
+#> 
+#> $removed_empty_cols
+#> [1] 2
+#> 
+#> $handle_dates
+#> [1] TRUE
+                    </pre>
+                    <p><strong>Date Detection:</strong> Automatically detects and converts:</p>
+                    <ul class="
