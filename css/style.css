@@ -321,7 +321,7 @@ pre.code-block {
 
 .sidebar {
     position: sticky;
-    top: 80px;
+    top: 75px;
     height: fit-content;
     margin-left: -10px;
 }
