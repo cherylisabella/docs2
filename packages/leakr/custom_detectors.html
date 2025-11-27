@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>leakr - Custom Detectors</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <div class="sidebar">
+            <ul class="nav">
+                <li><a href="/index.html">Home</a></li>
+                <li><a href="/docs.html">Documentation</a></li>
+                <li><a href="/about.html">About</a></li>
+            </ul>
+        </div>
+        
+        <div class="content">
+            <header>
+                <h1>Creating Custom Detectors</h1>
+                <p>Extend <code>leakr</code> with domain-specific detectors.</p>
+            </header>
+
+            <main>
+                <section>
+                    <h2>Detector Template</h2>
+                    <pre class="code-block">
+# Define custom detector function
+my_custom_detector <- function(audit_data, config) {
+  data <- audit_data$data
+  
+  # Initialise issues dataframe
+  issues <- data.frame(
+    severity = character(),
+    issue_type = character(),
+    description = character(),
+    suggested_fix = character(),
+    stringsAsFactors = FALSE
+  )
+  
+  # Example: Check for suspicious column names
+  suspicious_cols <- grep(
+    "_after_|_post_|_future_|_outcome_", 
+    names(data), 
+    value = TRUE,
+    ignore.case = TRUE
+  )
+  
+  if (length(suspicious_cols) > 0) {
+    issues <- rbind(issues, data.frame(
+      severity = "high",
+      issue_type = "suspicious_features",
+      description = paste(
+        "Found", length(suspicious_cols), 
+        "columns with temporal/outcome indicators:",
+        paste(head(suspicious_cols, 3), collapse = ", ")
+      ),
+      suggested_fix = "Review feature engineering for temporal leakage and target-derived features",
+      stringsAsFactors = FALSE
+    ))
+  }
+  
+  # Check for perfect correlations (potential proxy targets)
+  if (!is.null(audit_data$target) && audit_data$target %in% names(data)) {
+    numeric_features <- names(data)[sapply(data, is.numeric)]
+    numeric_features <- setdiff(numeric_features, audit_data$target)
+    
+    if (length(numeric_features) > 0) {
+      target_vals <- data[[audit_data$target]]
+      
+      for (feat in numeric_features) {
+        if (all(!is.na(data[[feat]])) && all(!is.na(target_vals))) {
+          correlation <- cor(data[[feat]], as.numeric(target_vals), 
+                           use = "complete.obs")
+          
+          if (abs(correlation) > 0.95) {
+            issues <- rbind(issues, data.frame(
+              severity = "critical",
+              issue_type = "perfect_correlation",
+              description = paste(
+                "Feature", feat, 
+                "has near-perfect correlation with target:",
+                round(correlation, 3)
+              ),
+              suggested_fix = paste("Remove", feat, "or investigate its derivation"),
+              stringsAsFactors = FALSE
+            ))
+          }
+        }
+      }
+    }
+  }
+  
+  # Return standardised result
+  list(
+    issues = issues,
+    evidence = list(
+      suspicious_columns = suspicious_cols,
+      n_suspicious = length(suspicious_cols)
+    )
+  )
+}
+                    </pre>
+                </section>
+
+                <section>
+                    <h2>Register Detector</h2>
+                    <pre class="code-block">
+# Register the detector
+register_detector(
+  name = "custom_feature_check",
+  fun = my_custom_detector,
+  description = "Checks for suspicious feature patterns and perfect correlations"
+)
+
+# Verify registration
+"custom_feature_check" %in% list_registered_detectors()
+#> [1] TRUE
+                    </pre>
+                </section>
+
+                <section>
+                    <h2>Use Custom Detector</h2>
+                    <pre class="code-block">
+# Use in audit
+report <- leakr_audit(
+  data = my_data,
+  target = "outcome",
+  detectors = c("train_test_contamination", "custom_feature_check")
+)
+                    </pre>
+                </section>
+
+                <section>
+                    <h2>Detector Requirements</h2>
+                    <ul>
+                        <li>Your custom detector function must:
+                            <ul>
+                                <li>Accept two parameters: <code>audit_data</code> and <code>config</code></li>
+                                <li>Return a list with <code>issues</code> and <code>evidence</code> components</li>
+                                <li>Use standardized severity levels: "critical", "high", "medium", "low"</li>
+                                <li>Include <code>issue_type</code>, <code>description</code>, and <code>suggested_fix</code> in the <code>issues</code> dataframe</li>
+                            </ul>
+                        </li>
+                    </ul>
+                </section>
+            </main>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2025 leakr. All rights reserved.</p>
+        </div>
+    </footer>
+</body>
+</html>
