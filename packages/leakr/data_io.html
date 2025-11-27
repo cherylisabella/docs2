@@ -179,4 +179,43 @@ attr(data, "leakr_provenance")
 #> [1] TRUE
                     </pre>
                     <p><strong>Date Detection:</strong> Automatically detects and converts:</p>
-                    <ul class="
+                    <ul class="features">
+                        <li>ISO format (YYYY-MM-DD)</li>
+                        <li>UK format (DD/MM/YYYY)</li>
+                        <li>US format (MM/DD/YYYY)</li>
+                        <li>Unix timestamps (seconds and milliseconds)</li>
+                        <li>Long formats (DD Month YYYY)</li>
+                    </ul>
+                </section>
+
+                <section>
+                    <h2>Export Data</h2>
+                    <pre class="code-block">
+# Export to CSV
+leakr_export_data(data, "output.csv", format = "csv")
+
+# Export to Excel
+leakr_export_data(data, "output.xlsx", format = "excel")
+
+# Export to RDS (recommended for R)
+leakr_export_data(data, "output.rds", format = "rds")
+
+# Export to JSON
+leakr_export_data(data, "output.json", format = "json")
+
+# Export to Parquet
+leakr_export_data(data, "output.parquet", format = "parquet")
+
+# Silent export
+leakr_export_data(data, "output.csv", verbose = FALSE)
+                    </pre>
+                </section>
+            </main>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <p>&copy; 2025 leakr Documentation. All rights reserved.</p>
+    </footer>
+</body>
+</html>
