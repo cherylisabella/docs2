@@ -87,12 +87,12 @@ body {
 /* Header */
 header {
     text-align: center;
-    padding: 4rem 0 3rem;
+    padding: 3rem 0 2rem;
     border-bottom: 1px solid #21262d;
 }
 
 h1 {
-    font-size: 3rem;
+    font-size: 2.5rem;
     font-weight: 300;
     color: #58a6ff;
     margin-bottom: 0.5rem;
@@ -112,12 +112,21 @@ h1 {
     margin: 4rem 0;
 }
 
+.packages-compact {
+    gap: 2rem;
+    margin: 3rem 0;
+}
+
 .package {
     background: #161b22;
     border: 1px solid #30363d;
     border-radius: 8px;
     padding: 2.5rem;
     transition: all 0.3s ease;
+}
+
+.package-compact {
+    padding: 1.5rem;
 }
 
 .package:hover {
@@ -133,14 +142,49 @@ h1 {
     margin-bottom: 1.5rem;
 }
 
+.package-header-compact {
+    margin-bottom: 1rem;
+}
+
+.title-row {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 0.75rem;
+}
+
 .package-icon {
-    font-size: 2rem;
+    font-size: 1.5rem;
 }
 
 .package-title {
-    font-size: 2rem;
+    font-size: 1.75rem;
     font-weight: 600;
     color: #f0f6fc;
+}
+
+/* Badges */
+.badges {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    margin-bottom: 0.5rem;
+}
+
+.badges img {
+    height: 20px;
+    vertical-align: middle;
+}
+
+.badges a {
+    line-height: 0;
+}
+
+.cran-date {
+    font-size: 0.85rem;
+    color: #8b949e;
+    font-style: italic;
+    margin-top: 0.5rem;
 }
 
 .package-description {
@@ -148,6 +192,17 @@ h1 {
     color: #8b949e;
     margin-bottom: 2rem;
     line-height: 1.7;
+}
+
+.package-description-compact {
+    font-size: 0.95rem;
+    color: #c9d1d9;
+    margin: 1rem 0;
+    line-height: 1.6;
+}
+
+.package-description-compact strong {
+    color: #f0f6fc;
 }
 
 .package h3 {
@@ -214,8 +269,8 @@ pre.code-block {
 /* Buttons */
 .buttons {
     display: flex;
-    gap: 1rem;
-    margin-top: 2rem;
+    gap: 0.75rem;
+    margin-top: 1.25rem;
     flex-wrap: wrap;
 }
 
@@ -231,6 +286,11 @@ pre.code-block {
     border-radius: 6px;
     font-size: 0.95rem;
     transition: all 0.2s ease;
+}
+
+.btn-sm {
+    padding: 0.5rem 1rem;
+    font-size: 0.875rem;
 }
 
 .btn:hover {
@@ -502,6 +562,18 @@ pre.code-block {
         padding: 1.5rem;
     }
 
+    .package-compact {
+        padding: 1.25rem;
+    }
+
+    .badges {
+        gap: 0.3rem;
+    }
+
+    .badges img {
+        height: 18px;
+    }
+
     .buttons {
         flex-direction: column;
     }
@@ -535,5 +607,13 @@ pre.code-block {
 
     .nav-links {
         flex-wrap: wrap;
+    }
+
+    .package-title {
+        font-size: 1.5rem;
+    }
+
+    .package-icon {
+        font-size: 1.25rem;
     }
 }
